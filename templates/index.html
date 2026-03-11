@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情緒識別</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #4b0082;
+            text-shadow: 2px 2px 4px #aaa;
+            margin: 5px 0; /* 再次減小上下行距 */
+        }
+
+        h3 {
+            font-size: 2rem;
+            color: #483d8b;
+            margin: 3px 0; /* 再次減小上下行距 */
+        }
+
+        img {
+            margin: 15px 0;
+            border: 5px solid #4b0082;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            margin: 15px 0;
+            background-color: #4b0082;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #6a5acd;
+            transform: scale(1.05);
+        }
+
+        #result {
+            font-size: 1.5rem;
+            color: #4b0082;
+            margin-top: 5px; /* 減小與按鈕的間距 */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>情緒識別</h1>
+    <h3>鏡頭實時畫面</h3>
+    <img src="/video_feed" width="640" height="480" alt="攝影機畫面">
+    <button id="captureButton">截取畫面並識別情緒</button>
+    <div id="result"></div>
+
+    <script>
+        const captureButton = document.getElementById('captureButton');
+        const resultDiv = document.getElementById('result');
+
+        captureButton.addEventListener('click', async () => {
+            resultDiv.textContent = "正在識別...";
+            try {
+                const response = await fetch('/capture', { method: 'POST' });
+                const data = await response.json();
+                if (response.ok) {
+                    resultDiv.textContent = `預測的情緒是：${data.emotion}`;
+                } else {
+                    resultDiv.textContent = `錯誤：${data.error}`;
+                }
+            } catch (err) {
+                resultDiv.textContent = `無法識別：${err.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
