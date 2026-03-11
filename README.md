@@ -18,7 +18,7 @@
 * **機器學習**：Scikit-learn, Joblib (SVM & Random Forest 集成模型)
 * **特徵工程**：Local Binary Pattern (LBP), 歐幾里得幾何距離計算
 
-## 如何在本地端執行
+## 環境建置與測試
 1. 安裝環境依賴：
    `pip install flask opencv-python dlib scikit-learn numpy skimage joblib`
 2. 下載 AI 模型：
